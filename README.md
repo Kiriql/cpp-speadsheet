@@ -1,4 +1,4 @@
-#cpp-spreadsheet
+# cpp-spreadsheet
 Teaching Project - Spreadsheet
 
 # Requirements
