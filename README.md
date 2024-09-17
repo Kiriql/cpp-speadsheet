@@ -1,19 +1,38 @@
 # cpp-spreadsheet
-Teaching Project - Spreadsheet
+Учебный проект - электронная таблица
 
-# Requirements
-C++17 and higher
+# Требования
+C++17 и выше
 
 [Java SE Runtime Environment 8](https://www.oracle.com/java/technologies/downloads/#java8)
 
 [ANTLR](https://www.antlr.org/)
 
-# Description
-The program is implemented using dynamic polymorphism, integration of the ANTLR (java) library for working with an abstract syntax tree, a hash table as the main data structure for implementing the interface (Sheet Excel). Data is stored in cells and protected from circular dependencies. An abstract syntax tree is used to solve formula problems similar to MS Office Excel. You can also place text in cells.
+# Описание
+Программа реализована, используя динамический полиморфизм, интеграцию библиотеки ANTLR (java) для работы с абстрактно синтаксическим деревом, хэш-таблицу в качестве основной структуры данных для реализации интерфейса (Лист/sheet Excel). Данные хранятся в ячейках и защищены от циклических зависимостей. Абстрактное синтаксическое дерево применяется для решения формульных задач по аналогии MS Office Excel. В ячейках также можно размещать и текст.
 
-# Instructions for assembling the project
-1. Install [Java SE Runtime Environment 8.](https://www.oracle.com/java/technologies/javase-jre8-downloads.html)
-2. Install [ANTLR](https://www.antlr.org/) (ANother Tool for Language Recognition) by following all the steps in the Quick Start menu.
-3. Check the file name antlr-X.X.X-complete.jar in the FindANTLR.cmake and CMakeLists.txt files for the correct version. Instead of "X.X.X" indicate your version of antlr.
-4. Create a folder called "antlr4_runtime" without quotes and download [files.](https://github.com/antlr/antlr4/tree/master/runtime/Cpp) into it
-5. Run cmake build with CMakeLists.txt.
+*Пример:*
+````
+sheet->SetCell("A1"_pos, "2");
+sheet->SetCell("A2"_pos, "=A1+1");
+sheet->SetCell("A3"_pos, "=A2+2");
+sheet->SetCell("A4"_pos, "=A3+3");
+sheet->SetCell("A5"_pos, "=A1+A2+A3+A4");
+
+auto* cell_A5_ptr = sheet->GetCell("A5"_pos);
+ASSERT_EQUAL(std::get<double>(cell_A5_ptr->GetValue()), 18);
+````
+
+*Реализованные исключения:*
+
+- **#DIV0!** - деление на ноль
+- **#VALUE!** - если операнд содержит текст, а не числовое значение.
+- **#REF!** - если обращение идет к ячейке (ссылка) за пределами Листа (sheet)
+- При обнаружении циклической ссылки будет выброшено исключение
+
+# Инструкция по сборке проекта
+1. Установить [Java SE Runtime Environment 8.](https://www.oracle.com/java/technologies/javase-jre8-downloads.html)
+2. Установить [ANTLR](https://www.antlr.org/) (ANother Tool for Language Recognition), выполнив все пункты в меню Quick Start.
+3. Проверить в файлах FindANTLR.cmake и CMakeLists.txt название файла antlr-X.X.X-complete.jar на корректность версии. Вместо "X.X.X" указать свою версию antlr.
+4. Создайть папку с названием "antlr4_runtime" без кавычек и скачайть в неё [файлы.](https://github.com/antlr/antlr4/tree/master/runtime/Cpp)
+5. Запустить cmake build с CMakeLists.txt.
